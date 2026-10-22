@@ -95,7 +95,7 @@ npm run dev
 ```
 
 - **Backend API**: `http://localhost:5000`
-- **Frontend App**: `http://localhost:3000`
+- **Frontend App**: `http://localhost:5000`
 
 ---
 

@@ -1,7 +1,28 @@
-require("dotenv").config();
-
 const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const bcrypt = require("bcryptjs");
+const User = require("./model/User");
 const Product = require("./model/Product");
+const connectDB = require("./config/db");
+
+dotenv.config();
+
+connectDB();
+
+const importData = async () => {
+  try {
+    await User.deleteMany();
+    await Product.deleteMany();
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash("password123", salt);
+
+    const adminUser = await User.create({
+      name: 'Admin User',
+      email: 'admin@shopnest.com',
+      password: hashedPassword,
+      role: 'admin'
+    });
 
 const products = [
   {
@@ -66,32 +87,14 @@ const products = [
   },
 ];
 
-async function seedDatabase() {
-  if (!process.env.MONGO_URL) {
-    throw new Error("MONGO_URL is missing. Add it to backend/.env before seeding.");
+await Product.insertMany(products);
+
+console.log("Data Imported Successfully!");
+process.exit();
+  } catch (error) {
+    console.error(`Error with data import: ${error.message}`);
+    process.exit(1);
   }
+};
 
-  await mongoose.connect(process.env.MONGO_URL);
-
-  const operations = products.map((product) => ({
-    updateOne: {
-      filter: { name: product.name },
-      update: { $set: product },
-      upsert: true,
-    },
-  }));
-
-  const result = await Product.bulkWrite(operations);
-  console.log(
-    `Seed complete: ${result.upsertedCount} products added, ${result.modifiedCount} existing products updated.`
-  );
-}
-
-seedDatabase()
-  .catch((error) => {
-    console.error("Database seeding failed:", error.message);
-    process.exitCode = 1;
-  })
-  .finally(async () => {
-    await mongoose.disconnect();
-  });
+importData();

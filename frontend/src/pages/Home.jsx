@@ -1,13 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import ProductCard from '../components/ProductCard';
+
 const Home = () => {
-    return (
-        <div className="home">
-            <h1>Welcome to ShopNest</h1>
-            <p>your one-step shop for all your naads. Explore our wide range of products and enjoy </p>
-            <Link to="/shop" className="btn">Start Shopping</Link>
-  </div>
-    );
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try{
+        const res = await fetch('/api/products');
+        const data = await res.json();
+        setProducts(data.slice(0, 4)); // Featured products
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading (false);
+      }
+    };
+    fetchProducts();
+  })
+
+  
+  return (
+    <div className="home-container">
+    <div className= "hero-banner">
+      <h1>Welcome to ShopNest</h1>
+      <p>Discover the best products at unbeatable</p>
+      <Link to="/shop" className="btn">Start Shopping</Link>
+    </div>
+
+    <h2>Featured Products</h2>
+    { loading ? (
+      <div>Loading...</div>
+    ) : (
+      <div className="products-grid">
+        {products.map((products) => (
+          <ProductCard key={products._id} product={products} />
+        ))}
+        </div>      
+    )}
+    </div>
+  );
 };
 
 export default Home;
