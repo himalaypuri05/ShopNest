@@ -7,8 +7,7 @@ import { AuthProvider } from './context/AuthContext';
 import store from './redux/store';
 import './styles/global.css';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
       <AuthProvider>

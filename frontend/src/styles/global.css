@@ -11,7 +11,8 @@ body {
     background-color: #09090b;
     color: #fafafa;
     min-height: 100vh;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .main-content {

@@ -59,7 +59,7 @@ const ProductDetail = () => {
     <div className="product-detail">
         {/* Left Side: Image */}
         <div className="detail-image-container">
-            <img src={product.imageUrl} alt={product.name} classNa me="detail-image" />            
+            <img src={product.imageUrl} alt={product.name} className="detail-image" />            
             </div>
 
             {/* Right Side: Information Block */}
