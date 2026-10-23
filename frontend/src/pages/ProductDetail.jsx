@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../redux/cartSlice';
+import { apiUrl } from '../utils/api';
 import '../styles/product.css';
 
 const ProductDetail = () => {
@@ -13,7 +14,7 @@ const ProductDetail = () => {
    useEffect(()=>{
       const fetchProduct = async ()=>{
          try {
-            const res = await fetch(`/api/products/${id}`);
+            const res = await fetch(apiUrl(`/api/products/${id}`));
             const data = await res.json();
             setProduct(data);
          } catch (error) {

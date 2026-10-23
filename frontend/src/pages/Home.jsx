@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ProductCard from '../components/ProductCard';
+import { apiUrl } from '../utils/api';
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -8,18 +9,20 @@ const Home = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      try{
-        const res = await fetch('/api/products');
+      try {
+        const res = await fetch(apiUrl('/api/products'));
         const data = await res.json();
-        setProducts(data.slice(0, 4)); // Featured products
+        if (Array.isArray(data)) {
+          setProducts(data.slice(0, 4)); // Featured products
+        }
       } catch (error) {
         console.error(error);
       } finally {
-        setLoading (false);
+        setLoading(false);
       }
     };
     fetchProducts();
-  })
+  }, []);
 
   
   return (

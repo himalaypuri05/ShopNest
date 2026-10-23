@@ -23,8 +23,7 @@
     "mongoose": "^9.7.1",
     "multer": "^2.2.0",
     "nodemailer": "^9.0.1",
-    "razorpay": "^2.9.6",
-    "shopnest-full-stack": "file:.."
+    "razorpay": "^2.9.6"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
